@@ -2,8 +2,14 @@ from lxml import etree
 import re
 import os
 import auxiliary
-
+import xlsxwriter
 def modifyTn(iptTree):
+
+    localworkbook = xlsxwriter.Workbook('Expenses2222.xlsx')
+    format2 = localworkbook.add_format({'bg_color':'green'})
+    format1 = localworkbook.add_format({'bg_color':'yellow'})
+
+
     configFileName ="example.ini"
     configHead = "xpathes"
     # tunnel logic
@@ -15,20 +21,44 @@ def modifyTn(iptTree):
     # print(exvFound)
     # for exvSummary in exvFound:
     #     for exvItem in exvSummary.iterchildren():
-    #         parsedInfo = parseTNmile(exvItem.attrib["TEXT"])
+    #         parsedInfo = parseTNmile(exvItem.text)
     #         exvItem.set("PORTAL",parsedInfo[0])
     #         if "ERROR" not in parsedInfo[0]:
     #             print(parsedInfo)
+    tunnelID = 1
+    portColumn = {"SL":2,"SR":4,"NL":6,"NR":8}
+
     for innSummary in innFound:
+        rowByPort = {"SL":1,"SR":1,"NL":1,"NR":1}
+
+
+
+
+
+        worksheet = localworkbook.add_worksheet(str(tunnelID))
+        tunnelID = tunnelID+1
+        worksheet.write(0,portColumn["SL"],"SL",format1)
+        worksheet.write(0,portColumn["SR"],"SR",format1)
+        worksheet.write(0,portColumn["NL"],"NL",format1)
+        worksheet.write(0,portColumn["NR"],"NR",format1)
+
         for innItem in innSummary.iterchildren():
-            parsedInfo = parseTNmile(innItem.attrib["TEXT"])
-            innItem.set("PORTAL",parsedInfo[0])
+            parsedInfo = parseTNmile(innItem.text)
+
             if "ERROR" not in parsedInfo[0]:
                 print(parsedInfo)
-                innItem.set("PORT",str(parsedInfo[0]))
+                thisPort = parsedInfo[0]
+                thisFmt = format2
+                thisLen = innItem.attrib["LENGTH"]
+                innItem.set("PORT",str(thisPort))
                 innItem.set("MILE1",str(parsedInfo[1]))
                 innItem.set("MILE2",str(parsedInfo[2]))
-                innItem.set("LENG",str(parsedInfo[3]))
+                innItem.set("LENG",thisLen)
+
+                worksheet.write(rowByPort[thisPort],portColumn[thisPort],thisLen, thisFmt)
+                rowByPort[thisPort] = rowByPort[thisPort]+1
+
+    localworkbook.close()
 
 
 def splitTnStr(spltStr,iptLR):

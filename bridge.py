@@ -23,17 +23,17 @@ def modifyBg(iptTree):
 
     for bridgeCC in bridgeFound:
         print("----------------------------------")
-        print(bridgeCC.attrib["TEXT"])
+        print(bridgeCC.attrib["DSTR"])
         print("----------------------------------")
         currBridgeID = bridgeCC.attrib["ID"]
         
         currBridgeHasLeft = 0
         currBridgeHasRight = 0
         currBridgeDict = {}
-        if "Moracica" in bridgeCC.attrib["TEXT"]:
+        if "Moracica" in bridgeCC.attrib["DSTR"]:
             continue
         for bridgeChild in bridgeCC.iterchildren():
-            # print(child.attrib["TEXT"])
+            # print(child.attrib["DSTR"])
             currBridgeName = bridgeCC.attrib["SNAME"]
 
             if "LRbridge" in bridgeChild.attrib:
@@ -109,7 +109,7 @@ def drawPiers(bridgeInfo,pierDict):
             # eliminate max
             row = row + 1
             # if pier is payed change color
-            if signed == '0':
+            if float(signed)<0:
                 thisFmt = format1
             else:
                 thisFmt = format2
@@ -125,15 +125,16 @@ def loopPiers(bridgeInfo,bridgeSubitemCrusor):
     currPier = ""
     cummPier = 0
     pierDict = {}
+
     try:
         # if is pier
-        if "piers" in bridgeSubitemCrusor.attrib["TEXT"].lower():
+        if "piers" in bridgeSubitemCrusor.attrib["DSTR"].lower():
             # loop pier item
             for pierChild in bridgeSubitemCrusor.iterchildren():
                 
-                piers = parseBGpiers(pierChild.attrib["TEXT"])
-                pierIsfull = pierChild.find("ISFULL").text
-
+                piers = parseBGpiers(pierChild.text)
+                # pierIsfull = pierChild.find("ISFULL").text
+                pierIsfull = pierChild.attrib["ISFULL"]
 
                 # print(piers)
                 if piers[0] in pierDict:
@@ -168,10 +169,6 @@ def loopPiers(bridgeInfo,bridgeSubitemCrusor):
 
             print(pierDict)
             drawPiers(bridgeInfo,pierDict)
-
-
-
-
 
             return 1
     except Exception as e:

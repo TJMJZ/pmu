@@ -82,7 +82,7 @@ for sheetNumber in range(1,15):
             # subCC.text = rowItem[1]
             subCC.set("LEVEL",str(2))
             subCC.set("ID",ccID)
-            subCC.set("TEXT",rowItem[1])
+            subCC.set("DSTR",rowItem[1])
             if subccName in ccDict:
                 structureName = auxiliary.findNameinBook(rowItem[1],ccDict[subccName],-1)
                 if structureName:
@@ -104,7 +104,7 @@ for sheetNumber in range(1,15):
             lrBridge = etree.SubElement(subCC,lrName)
             lrBridge.set("ID",subCC.get("ID"))
             lrBridge.set("LEVEL",str(2))
-            lrBridge.set("TEXT",str(rowItem[1].split("/")[0]))
+            lrBridge.set("DSTR",str(rowItem[1].split("/")[0]))
             lrBridge.set("LRbridge",str(auxiliary.bridgeLRjudge(rowItem[0],rowItem[1])))
             currCrusor = lrBridge
 
@@ -125,7 +125,7 @@ for sheetNumber in range(1,15):
                         thisSummaryName = rowItem[1]
                         try:
                             foundInDict = ""
-                            if "tunnel" in currCrusor.get("TEXT").lower():
+                            if "tunnel" in currCrusor.get("DSTR").lower():
                                 foundInDict = auxiliary.findNameinBook(thisSummaryName,summaryDict["tunnel"],-1)
 
                                 # for thisItem in summaryDict["tunnel"]:
@@ -133,7 +133,7 @@ for sheetNumber in range(1,15):
                                 #         temp = thisItem
                                 #         foundInDict = True
                                 #         break
-                            elif "bridge" in currCrusor.get("TEXT").lower():
+                            elif "bridge" in currCrusor.get("DSTR").lower():
                                 foundInDict = auxiliary.findNameinBook(thisSummaryName,summaryDict["bridge"],-1)
                                 # for thisItem in summaryDict["bridge"]:
                                 #     if thisItem in thisSummaryName.lower():
@@ -155,7 +155,7 @@ for sheetNumber in range(1,15):
                         newentry = etree.SubElement(currCrusor,foundInDict)
                         newentry.set("ID",str(rowItem[0]))
                         
-                        newentry.set("TEXT",str(rowItem[1].split("/")[0]))
+                        newentry.set("DSTR",str(rowItem[1].split("/")[0]))
                         
                         currCrusor = newentry
                     # is leaf
@@ -164,7 +164,7 @@ for sheetNumber in range(1,15):
                     	
                         newentry = etree.SubElement(currCrusor,"LEAF")
                         try:
-                            tempString = currCrusor.get("TEXT").lower()
+                            tempString = currCrusor.get("DSTR").lower()
                         except Exception as e:
                             tempString = ""
 
@@ -194,18 +194,21 @@ for sheetNumber in range(1,15):
 
                         
                         newentry.set("ID",str(rowItem[0]))
-                        newentry.set("TEXT",str(rowItem[1]))
+                        newentry.text = str(rowItem[1])
+                        newentry.set("TOTALAMT",str(rowItem[2]).split(".")[0])
+                        newentry.set("THISPRD",str(rowItem[6]).split(".")[0])
+                        newentry.set("PREVCM",str(rowItem[5]).split(".")[0])
 
-                        etree.SubElement(newentry,"TOTALAMT").text = str(rowItem[2])
-                        etree.SubElement(newentry,"THISPRD").text = str(rowItem[6])
-                        etree.SubElement(newentry,"PREVCM").text = str(rowItem[5])
+                        # etree.SubElement(newentry,"TOTALAMT").text = str(rowItem[2])
+                        # etree.SubElement(newentry,"THISPRD").text = str(rowItem[6])
+                        # etree.SubElement(newentry,"PREVCM").text = str(rowItem[5])
 
                         if rowItem[6] == rowItem[2]:
-                            etree.SubElement(newentry,"ISFULL").text = "1"
+                            newentry.set("ISFULL","1")
                         elif rowItem[5]+rowItem[6] == rowItem[2]:
-                            etree.SubElement(newentry,"ISFULL").text = "2"
+                            newentry.set("ISFULL","2")
                         else:
-                            etree.SubElement(newentry,"ISFULL").text = "0"
+                            newentry.set("ISFULL","-1")
                         
                     
 
@@ -240,7 +243,7 @@ for sheetNumber in range(1,15):
 try:
     tunnel.modifyTn(IPC015TREE)
 except Exception as e:
-    print(e)
+    raise(e)
 else:
     pass
 
@@ -251,4 +254,4 @@ bridge.modifyBg(IPC015TREE)
 
 
 
-IPC015TREE.write('test7.xml', pretty_print=True, xml_declaration=True, encoding='utf-8')
+IPC015TREE.write('test11.xml', pretty_print=True, xml_declaration=True, encoding='utf-8')
