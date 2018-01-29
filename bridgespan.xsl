@@ -16,13 +16,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         <th align="left">PIER</th>
         <th align="left">THISAMT</th>
       </tr>
-      <xsl:for-each select="//SUB_bridge/SUB_BLEFT/foundation/LEAF|//SUB_bridge/SUB_BRIGHT/foundation/LEAF">
+      <xsl:for-each select="//SUB_bridge/SUB_BLEFT/span//LEAF|//SUB_bridge/SUB_BRIGHT/span//LEAF">
       <tr>
-        <td><xsl:value-of select="../../../@TEXT"/></td>
-        <td><xsl:value-of select="../../@TEXT"/></td>
+        <td><xsl:value-of select="./ancestor::SUB_bridge/@SNAME"/></td>
+        <td><xsl:value-of select="./ancestor::SUB_BLEFT/@LRbridge|ancestor::SUB_BLEFT/@DSTR"/></td>
         <td><xsl:value-of select="name(..)"/></td>
-        <td><xsl:value-of select="./@TEXT"/></td>
-        <td><xsl:value-of select="./THISPRD"/></td>
+        <td><xsl:value-of select="."/></td>
+        <td><xsl:value-of select="./@PREVCM"/></td>
       </tr>
       </xsl:for-each>
     </table>
@@ -30,3 +30,4 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   </html>
 </xsl:template>
 </xsl:stylesheet>
+

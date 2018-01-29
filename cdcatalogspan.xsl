@@ -18,11 +18,11 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
       </tr>
       <xsl:for-each select="//SUB_bridge/SUB_BLEFT/foundation/LEAF|//SUB_bridge/SUB_BRIGHT/foundation/LEAF">
       <tr>
-        <td><xsl:value-of select="../../../@TEXT"/></td>
-        <td><xsl:value-of select="../../@TEXT"/></td>
+        <td><xsl:value-of select="../../../@SNAME"/></td>
+        <td><xsl:value-of select="../../@DSTR"/></td>
         <td><xsl:value-of select="name(..)"/></td>
-        <td><xsl:value-of select="./@TEXT"/></td>
-        <td><xsl:value-of select="./THISPRD"/></td>
+        <td><xsl:value-of select="."/></td>
+        <td><xsl:value-of select="./@THISPRD"/></td>
       </tr>
       </xsl:for-each>
     </table>

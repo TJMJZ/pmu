@@ -10,7 +10,7 @@ import bridge
 import road
 
 summaryDict = {"tunnel":["excavation","secondary","portal","finish","pavement","facilities","equipment","engineering"],
-                "bridge":["foundation","piers","superstructure","deck","span","prestress","furniture","asphalt","engineering"]}
+                "bridge":["pile","foundation","piers","superstructure","deck","span","prestress","furniture","asphalt","engineering"]}
 tunnelNameDict = {"suka":1,"vezesnik":2,"mrke":4,
     "klopot":5,"vilac":6,"vjeternik":7,
     "mrkikrs":8,"durilovac":9,"kosman":10,"malatrava":11,
@@ -254,4 +254,4 @@ bridge.modifyBg(IPC015TREE)
 
 
 
-IPC015TREE.write('test11.xml', pretty_print=True, xml_declaration=True, encoding='utf-8')
+IPC015TREE.write('test12.xml', pretty_print=True, xml_declaration=True, encoding='utf-8')
