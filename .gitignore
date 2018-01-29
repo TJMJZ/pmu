@@ -1,0 +1,8 @@
+# excels
+*.xlsx
+
+# xml
+*.xml
+
+# python
+*.pyc

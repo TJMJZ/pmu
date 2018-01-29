@@ -1,0 +1,7 @@
+[xpathes]
+tunnel = //SubCostCenter[re:test(@TEXT,'.*tunnel.*','i')]
+tunnelExcavation = //SUB_tunnel[re:test(@TEXT,'.*tunnel.*','i')]/excavation[starts-with(@TEXT,'Excavation')]
+tunnelInnerLining = //SubCostCenter[re:test(@TEXT,'.*tunnel.*','i')]/NODE[re:test(@TEXT,'.*secondary.*','i')]
+road = //SubCostCenter[re:test(@TEXT,'.*road.*','i')]
+roadStructureConcrete = //SubCostCenter[re:test(@TEXT,'.*road.*','i')]//NODE[re:test(@TEXT,'.*engineer.*','i')]//NODE[re:test(@TEXT,'.*concrete.*','i')]
+bridge = //SubCostCenter[re:test(@TEXT,'.*bridge.*','i')]
